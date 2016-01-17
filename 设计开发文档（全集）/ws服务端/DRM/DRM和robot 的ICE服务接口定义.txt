@@ -1,0 +1,21 @@
+DRM和robot 的ICE服务接口定义文件。
+客户端调用代码
+ public static void
+    main(String[] args)
+    {
+        try
+        {
+            Ice.Communicator communicator = Ice.Util.initialize(new String[]{});
+            RobotRemoteServicePrx hello = RobotRemoteServicePrxHelper.checkedCast(communicator.stringToProxy("RobotRemoteService:tcp -h localhost -p 20000"));
+            hello.runRobotStart("111");
+            hello.runRobotStop("ccc");
+            communicator.destroy();
+        }
+        catch(Ice.LocalException ex)
+        {
+            ex.printStackTrace();
+            System.exit(1);
+        } catch (RemoteException e) {
+   e.printStackTrace();
+  }
+    }

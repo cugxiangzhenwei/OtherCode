@@ -1,0 +1,40 @@
+计算节点服务器配置：
+操作系统：windowXP
+CPU：8核
+内存：8G
+硬盘：100G
+ 
+操作系统：window7
+CPU：8核
+内存：8G
+硬盘：100G
+ 
+操作系统：linux
+CPU：8核
+内存：8G
+硬盘：100G
+
+
+
+Linux：   192.168.113.243  root        pera2013；
+Winxp： 192.168.113.209  qa          pera2011；
+Win7：   192.168.113.212  qa          pera2011；
+
+
+
+linux（192.168.113.243）:
+安装目录： /usr/local/bin/drm-agent
+启动agent: 1、进入 /drm-agent/bin目录 2、 ./start.sh
+关闭agent: 1、 ps -ef | grep agent; 获得pid号 
+           2、kill -9 pid;
+日志查看 tail -f /usr/local/bin/drm-agent/logs/stdout.log
+ 
+Winxp(192.168.113.209);
+安装目录：D:\drm-agent
+启动agent:1、D:\drm-agent\bin\startup.bat 或者 桌面有快捷方式；
+ 
+Win7(192.168.113.212);
+安装目录：D:\drm-agent
+启动agent:1、D:\drm-agent\bin\startup.bat 或者 桌面有快捷方式；
+ 
+重新部署DRM服务器需要重新启动Agent；

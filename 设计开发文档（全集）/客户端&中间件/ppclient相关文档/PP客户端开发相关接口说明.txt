@@ -1,0 +1,272 @@
+为了方便联调，仿QQ综合设计环境现在给出中间测试版本，版本配置说明如下：
+    
+一： 客户端中间区域Web显示：
+ 
+在安装路径下config.ini中
+
+[WebService]
+ErmService = http://192.168.20.88:8082/erm/remoting/ermRemoting
+修改此地址为真实系统的ERM即可。
+MsgCenterService = http://192.168.20.88:8082/portal/webservice/portalRemote
+修改此地址为真实系统的portal即可。
+
+[WebURL]
+任务协同 = http://192.168.20.199:8087/syspro/clientAction.do?method=waitingTask
+数据中心 = http://192.168.20.37:8092/simserver/task.do
+知识中心 = http://192.168.20.199:8085/rdf/wbGrantAction.do?method=workBagList
+型号策划 = http://192.168.20.199:8087/syspro/modelInfoAction.do?method=modelTree
+研发质量 = http://192.168.20.37:7004/qkm/designPlan/qualityStandard/standard.do?method=showQQ
+项目管理 = http://192.168.20.199:8087/syspro/processPlanAction.do?method=bagfabu&parentId=-1
+监控看板 = http://192.168.20.199:8084/perapl/clientAction.do?method=initDesignMonitor
+我的收藏 = http://192.168.20.199:8088/km/displayCollectList.do?method=displayCollectList&type=0
+我的订阅 = http://192.168.20.199:8088/km/displaySubscribeList.do?method=displaySubscribeList&type=1
+我的申请 = http://192.168.20.199:8088/km/displayForapplyManageList.do?method=displayForapplyManageList
+我的贡献 = http://192.168.20.199:8088/km/generalknowledgebasemain.do?method=addkonwledge
+我的问答 = http://192.168.20.199:8088/km/communication.do?method=initCustom
+他人推荐 = http://192.168.20.199:8088/km/knowledgeControllerList.do?method=knowledgeControllerList&type=2
+公共区域 = http://192.168.20.199:8088/km/knowledgeDynamic.do?method=showMain
+公共查询 = http://192.168.20.199:8088/km/knowledgeDynamic.do?method=showGlobalMain
+消息中心 = http://192.168.20.199:8089/portal/cax.erm
+过程数据 = http://192.168.20.37:8092/simserver/task!toProcessTreeDetai.do
+知识工程维护 = http://192.168.20.199:8088/km/frameset.jsp
+综合设计维护 = http://192.168.20.199:8090/baselib/workflow/main/main_wfm.cm
+系统管理维护 = http://192.168.20.199:8082/erm/frameset.erm
+
+修改此地址为要验证的某一真实系统地址即可。
+ 
+开发要求：
+
+其中客户端中间网页区域不允许有横向滚动条，尽可能不要有纵向滚动条，默认显示宽度为280像素  高度：480像素
+ 
+浮动TIPS窗口区域不允许有横向滚动条，也不允许有纵向滚动条，默认显示宽度：500像素  高度：350像素
+
+公共区域域不允许有横向滚动条，也不允许有纵向滚动条，默认显示宽度：794像素  高度：560像素
+ 
+二：　客户端和Wed端交互 （请开发设计人员根据显示内容判断使用何种效果） 
+注意：
+所有使用external方法的地方请务必使用异常保护，用法可以见下面各方法的例子
+
+(1) 浮动Tip区域显示
+实现： 
+客户端会在网页元素中查找PeraToolTipURL属性，然后提取该属性做为URL进行跳转； 
+在网页中需要弹出TIPS的所有元素须加入PeraToolTipURL属性（URL）。
+例如：<LABEL ID="Button1" PeraToolTipURL="http://www.baidu.com/s?wd=北京天气">北京天气</LABEL>
+
+(2) 浮动Tip区域中更新主体页面
+实现：
+在TIPS中提交完成后，在适当时机调用external.ParentNavigate('http://www.baidu.com');
+该函数将进行两个操作：1、弹出该TIP的页面跳转到指定页；2、隐藏当前TIP区域
+
+(3) Web区域点击后弹出Web网页容器(公共区域大小窗口)，在窗口内显示页面
+实现：适当时机调用external.PopupNavigate('http://www.baidu.com');
+例子：
+////////////////////////////////////////////
+	//使用异常保护兼容客户端和IE
+	try{
+		external.PopupNavigate('http://www.baidu.com');	
+	}catch(e){
+		//调用IE下的方法
+		window.showModalDialog(sURL [, vArguments] [, sFeatures]) 
+		window.showModelessDialog(sURL [, vArguments] [, sFeatures])
+	}
+////////////////////////////////////////////
+
+(4) Web区域点击后弹出Web网页容器(全屏容器外框撑满屏幕), 在窗口内显示页面
+实现：适当时机调用external.FullScreenNavigate('http://www.baidu.com');
+例子：
+////////////////////////////////////////////
+	//使用异常保护兼容客户端和IE
+	try{
+		external.FullScreenNavigate('http://www.baidu.com');	
+	}catch(e){
+		//调用IE下的方法
+		window.showModalDialog(sURL [, vArguments] [, sFeatures]) 
+		window.showModelessDialog(sURL [, vArguments] [, sFeatures])
+	}
+////////////////////////////////////////////
+
+(5) 由(3)(4)方法中弹出的网页容器中可以调用external.ParentNavigate('http://www.baidu.com');
+方法来刷新弹出该容器的页面（该页面必须是频道页面）
+刷新完成后，弹出的网页容器不会关闭，须再调用window.close();关闭
+
+(6) Web区域点击后实现频道切换的实现：
+在需要此效果的元素中调用external.ChannelNavigate('我的问答','C:\\WINDOWS\\Help\\Tours\\htmlTour\\default.htm');
+参数说明：
+第一个字符串为频道名称，点击客户端上边栏第二个按钮（按钮设置），可查询每个图标对应的频道名称
+第二个字符串为频道要跳转到的网页，若为空，则仅切换频道，不重新网页跳转
+例子：
+////////////////////////////////////////////
+	//使用异常保护兼容客户端和IE
+	try{
+		external.ChannelNavigate('我的问答','C:\\WINDOWS\\Help\\Tours\\htmlTour\\default.htm');
+	}catch(e){
+		//调用IE下的方法
+	}
+////////////////////////////////////////////
+
+(7) 文件下载
+方法一：
+调用external.FileDownload('http://192.168.20.88:9090/fileRoot/MyProject/fileRoot/MyProject7220/hd3/HD_testCom.xml');
+参数说明：
+参数字符串为要下载的文件的绝对路径，包括协议名http、IP、端口等完整路径
+例子：
+////////////////////////////////////////////
+	//使用异常保护兼容客户端和IE
+	try{
+		var clientwindow=window.dialogArguments;
+		if(clientwindow){
+			var clientwindownotnull;
+			while(clientwindow){
+				clientwindownotnull=clientwindow;
+				clientwindow=clientwindow.dialogArguments;
+			}
+			clientwindownotnull.external.FileDownload("http://192.168.20.88:9090/fileRoot/MyProject/fileRoot/MyProject7220/hd3/HD_testCom.xml");
+		}else{
+			external.FileDownload("http://192.168.20.88:9090/fileRoot/MyProject/fileRoot/MyProject7220/hd3/HD_testCom.xml");
+		}		
+	}catch(e){
+		//调用IE下的下载方法
+		document.getElementById("downFrame").src = "http://192.168.20.88:9090/fileRoot/MyProject/fileRoot/MyProject7220/hd3/HD_testCom.xml";
+	}
+////////////////////////////////////////////
+方法二：
+在客户端弹出的容器中使用，在下载地址中包含method=download字段。
+
+(8)文件下载下载不了问题解决：地址中包含 method=download 名称，即可。
+
+(9)所有频道页面中不再响应页面脚本的关闭操作，如
+window.close();
+javascript:window.self.close();
+等。
+弹出的页面中调用上述两种方法关闭页面时，不再弹出提示窗，直接关闭。
+
+(10)刷新频道的接口，external.ChannelRefresh('数据中心');
+例子：
+////////////////////////////////////////////
+	//使用异常保护兼容客户端和IE
+	try{
+		external.ChannelRefresh('数据中心');	
+	}catch(e){
+		//调用IE下的方法
+	}
+////////////////////////////////////////////
+
+(11)跨域弹出模态对话框
+external.CustomModalNavigate('http://...',800,600);
+例子：
+////////////////////////////////////////////
+	//使用异常保护兼容客户端和IE
+	try{
+		external.CustomModalNavigate('http://...',800,600);
+	}catch(e){
+		//调用IE下的方法
+		window.showModalDialog(sURL [, vArguments] [, sFeatures]) 
+	}
+////////////////////////////////////////////
+
+(11)跨域弹出模态对话框(全屏)
+external.CustomModalNavigateFullScreen('http://...');
+例子：
+////////////////////////////////////////////
+	//使用异常保护兼容客户端和IE
+	try{
+		external.CustomModalNavigateFullScreen('http://...');
+	}catch(e){
+		//调用IE下的方法
+		window.showModalDialog(sURL [, vArguments] [, sFeatures]) 
+	}
+////////////////////////////////////////////
+
+(12)模态窗口返回值，在模态窗口页面调用
+external.returnValue(1);
+代替window.returnValue = 1;
+目前窗口只能返回整型。如果窗口未设置返回值，默认为-1
+例子：
+////////////////////////////////////////////
+	//使用异常保护兼容客户端和IE
+	try{
+		external.returnValue(1);
+	}catch(e){
+		//调用IE下的方法
+		window.returnValue = 1;
+	}
+////////////////////////////////////////////
+
+(13)弹出自定义大小非模态网页
+external.CustomModelessNavigate("http://www.baidu.com", 1200, 600);
+例子：
+////////////////////////////////////////////
+	//使用异常保护兼容客户端和IE
+	try{
+		external.CustomModelessNavigate("http://www.baidu.com", 1200, 600);
+	}catch(e){
+		//调用IE下的方法
+		window.open(...)
+	}
+////////////////////////////////////////////
+
+----------------------------------------------------------------------------------------
+
+
+////////////////////////////////////////////
+	//使用异常保护兼容客户端和IE
+	try{
+		var clientwindow=window.dialogArguments;
+		if(clientwindow){
+			var clientwindownotnull;
+			while(clientwindow){
+				clientwindownotnull=clientwindow;
+				clientwindow=clientwindow.dialogArguments;
+			}
+			var vResult = clientwindownotnull.external.CustomModalNavigate2('http://...',800,600,window);
+		}else{
+			var vResult = external.CustomModalNavigate2('http://...',800,600,window);
+		}		
+	}catch(e){
+		//调用IE下的方法
+		window.showModalDialog(sURL [, vArguments] [, sFeatures]) ;
+	}
+////////////////////////////////////////////
+
+(14)跨域弹出模态对话框第二版，支持传参及返回值
+external.CustomModalNavigate2('http://...',800,600,window);
+例子：
+////////////////////////////////////////////
+	//使用异常保护兼容客户端和IE
+	try{
+		var v = external.CustomModalNavigate2('http://...',800,600,window);
+	}catch(e){
+		//调用IE下的方法
+		window.showModalDialog(sURL [, vArguments] [, sFeatures]) 
+	}
+////////////////////////////////////////////
+
+(14)跨域弹出模态对话框(全屏)第二版,支持传参及返回值
+external.CustomModalNavigateFullScreen2('http://...',window);
+例子：
+////////////////////////////////////////////
+	//使用异常保护兼容客户端和IE
+	try{
+		var v = external.CustomModalNavigateFullScreen2('http://...',window);
+	}catch(e){
+		//调用IE下的方法
+		window.showModalDialog(sURL [, vArguments] [, sFeatures]) 
+	}
+////////////////////////////////////////////
+
+(15)模态窗口返回值，在模态窗口页面调用
+external.returnValue2("返回值");
+代替window.returnValue = 1;
+例子：
+////////////////////////////////////////////
+	//使用异常保护兼容客户端和IE
+	try{
+		external.returnValue2("返回值");
+	}catch(e){
+		//调用IE下的方法
+		window.returnValue = 1;
+	}
+////////////////////////////////////////////
+(16)第二版模态窗口页面调用传入的参数
+var vIn = external.dialogArguments2();
+如果在调用第二版模态窗口接口时传入window，则可以用上方法得到传入的window

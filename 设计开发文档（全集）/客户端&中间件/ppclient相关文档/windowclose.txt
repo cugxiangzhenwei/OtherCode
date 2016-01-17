@@ -1,0 +1,5 @@
+所有由客户端容器包含的页面中不再响应页面脚本的关闭操作，如
+window.close();
+javascript:window.self.close();
+等。
+如果确实需要关闭窗口，请在页面中调用external.CloseWnd();接口来实现。

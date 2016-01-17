@@ -1,0 +1,23 @@
+网页中启动个人工作台接口文档
+
+网页中调用示例：
+
+<HTML><HEAD><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">		</HEAD>
+<BODY>
+<a href='PeraDC:{"userName":"admin","realName":"超级管理员","ticket-proxy":"aaabbbcccddd","mainUrl":"http://www.baidu.com/baidu?word=%25E6%25B1%2589%25E5%25AD%2597"}'>个人工作平台</>
+</BODY></HTML>
+
+格式说明：
+采用自定义协议的超链接方式启动个人工作平台
+超链接以PeraDC:开头
+超链接字符上限500
+超链接除去头部外是个json格式的字符串
+{
+    "userName": "admin",
+    "realName": "超级管理员",
+    "ticket-proxy": "aaabbbcccddd",
+    "mainUrl": "http://www.baidu.com/baidu?word=%E6%B1%89%E5%AD%97"
+}
+对象至少有userName、realName、ticket-proxy、mainUrl四个属性
+json格式的字符串中如出现%，需要使用%25进行转义
+PeraDC:{"userName":"admin","realName":"超级管理员","ticket-proxy":"aaabbbcccddd","mainUrl":"http://www.baidu.com/baidu?word=%25E6%25B1%2589%25E5%25AD%2597"}

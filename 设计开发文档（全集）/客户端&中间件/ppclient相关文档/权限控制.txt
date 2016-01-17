@@ -1,0 +1,24 @@
+权限控制功能说明：
+需要更新对应ERM补丁，并导入相关定义的子系统及模块信息，然后对用户作授权操作
+其中要求一个用户至少授权一个频道才可以正常登陆客户端
+
+左侧频道对应一个子系统CC，其中各功能模块为
+型号策划			MOD_CC_XHCH
+项目管理			MOD_CC_XMGL
+我的贡献			MOD_CC_WDGX
+他人推荐			MOD_CC_TRTJ
+任务协同			MOD_CC_RWXT
+知识中心			MOD_CC_ZSZX
+我的收藏			MOD_CC_WDSC
+我的问答			MOD_CC_WDWD
+数据中心			MOD_CC_SJZX
+研发质量			MOD_CC_YFZL
+监控看板			MOD_CC_JKKB
+我的订阅			MOD_CC_WDDY
+我的申请			MOD_CC_WDSQ
+
+右上角维护区对应一个子系统CM，其中各功能模块为
+知识工程维护			MOD_CM_ZSGCWH
+综合设计维护			MOD_CM_ZHSJWH
+基础管理维护			MOD_CM_JCGLWH
+

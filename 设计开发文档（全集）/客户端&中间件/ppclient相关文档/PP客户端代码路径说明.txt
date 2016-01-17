@@ -1,0 +1,17 @@
+pp客户端
+
+知识工程独立版本：
+代码路径：【https://svn.peraglobal.com/svn/PERA13.0_code/Develope/trunk/platform/WorkSpace/client/QQClient/知识工程/trunk】
+打包路径：【https://svn.peraglobal.com/svn/PERA13.0_code/Develope/trunk/platform/WorkSpace/client/QQClient/install/知识工程/work】
+
+知识工程603版本：
+代码路径：【https://svn.peraglobal.com/svn/PERA13.0_code/Develope/branches/603/WorkSpace/client/QQClient/知识工程/trunk】
+打包路径：【https://svn.peraglobal.com/svn/PERA13.0_code/Develope/branches/603/WorkSpace/client/QQClient/install/知识工程/work】
+
+结构记录卡：
+代码路径：【https://svn.peraglobal.com/svn/JGSJ_code/trunk/客户端/code/PPClient】
+打包路径：【https://svn.peraglobal.com/svn/JGSJ_code/trunk/客户端/install】
+
+株机：
+代码路径：【https://svn.peraglobal.com/svn/PERA13.0_code/Develope/branches/ZJKE/client/QQClient/知识工程/trunk】
+打包路径：【https://svn.peraglobal.com/svn/PERA13.0_code/Develope/branches/ZJKE/client/QQClient/install/知识工程/work】

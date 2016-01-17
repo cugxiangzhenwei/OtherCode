@@ -1,0 +1,2 @@
+UploadUrl=http://192.168.20.141:8999/dms/netDiskRPC
+UploadUrl=http://192.168.50.185:8081/dms/netDiskRPC

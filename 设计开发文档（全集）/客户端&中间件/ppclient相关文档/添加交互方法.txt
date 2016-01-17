@@ -1,0 +1,34 @@
+cdhtmldialog交互
+1、
+类声明添加
+DECLARE_DISPATCH_MAP()
+
+添加响应函数声明，如
+void PopupNavigate(char* sURL);
+
+重载CanAccessExternal
+virtual BOOL CanAccessExternal();
+
+2、
+构造函数添加
+EnableAutomation();
+
+初始化添加
+SetExternalDispatch(GetIDispatch(TRUE));
+
+消息映射添加
+BEGIN_DISPATCH_MAP(CDlgIE, CDHtmlDialog)
+	//弹出窗口接口
+	DISP_FUNCTION(CDlgIETooltip, "PopupNavigate", PopupNavigate, VT_EMPTY, VTS_BSTR) 	
+	// example:
+	// DISP_FUNCTION(CMyDHTMLDialog,"Func2",TestFunc,VT_BOOL,VTS_BSTR VTS_I4 VTS_I4)
+	//                                                ^return,   ^parameters type list
+END_DISPATCH_MAP()
+
+实现CanAccessExternal重载
+BOOL CDlgIE::CanAccessExternal()
+{
+	return TRUE;
+}
+
+最后实现响应函数

@@ -1,0 +1,6 @@
+如果应用经常部署失败，可以尝试以下步骤
+ 
+1、点击 undeployed，等待结束；
+2、进入服务器，关闭该应用jboss，检查standalone\configuration\standalone.xml文件中对该应用的部署描述是否删除；
+3、重启该jboss；
+4、重新deploy;

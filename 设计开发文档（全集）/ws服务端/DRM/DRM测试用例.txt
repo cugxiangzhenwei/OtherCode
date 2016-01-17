@@ -1,0 +1,38 @@
+主要支持仿真软件：ansys,patran,Catia，fluent,Nastran，ug,proe,maxsurf,hyperworks，自研程序
+ 
+1、仿真软件场景准备
+   a、体现该仿真软件最主要特性场景一个；
+   b、耗时场景一个；
+   c、大文件场景一个；
+ 
+2、测试点
+    a、工具集成组件--仿真软件模式
+    b、工具集成组件--CMD/Bash模式
+    c、三合一组件
+    
+3、测试点环境
+    A、本地服务器运行
+    B、远程win环境运行
+    C、远程linux环境运行
+ 
+整套测试用例预计 6（5个主要仿真软件+1个自研程序） * 3个场景 * 3个测试点 * 3个测试点环境 = 162 测试
+ 
+个人建议：编写一部分自动化测试脚本
+
+
+1. win7, XP robot 双击执行，是否能正常运行。
+2. 设计过程，远端执行，看是否正常运行。
+3. 设计过程，并行，5个robot,全部指定一个AGent，看是否正常运行。
+4. 设计过程，并行，10个robot,自动分配，看监控，看分配是否合理，看节点任务状态。
+5. 设计过程，2个Agent，1个本地，交叉，看是否正常运行。
+6. 设计过程，2个节点，前表单，后表单，远端执行，看表单交互是否正常，表单在本地弹。
+7. Command组件，脚本引擎组件，运行时控制是否正常。
+
+
+测试agent环境
+Linux：   192.168.113.243  root pera2013； 安装软件：MD Nastran R3和ANSYS 14（workbench，fluent）
+Winxp： 192.168.113.209  qa  pera2011； 安装软件：Patran2008R2，MD Nastran R3和ANSYS 14（workbench，fluent）
+Win7：    192.168.113.212  qa  pera2011； 安装软件：Patran2008R2，MD Nastran R3和ANSYS 14（workbench，fluent）
+
+各种工程组件及设计过程已经更新至SVN：【https://svn.peraglobal.com/svn/PeraProjects_code/PeraPlatform/pro_611A/docs/Pera13.1-611-DRM-TestCase】
+请直接执行验证。（包括本地执行+远端执行）

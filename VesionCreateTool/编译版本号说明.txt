@@ -1,0 +1,37 @@
+1. 使用工具 VesionCreateTool.exe 生成version.h 内容如下：
+//This file is created by VesionCreateTool,11:54:11May 12 2014
+#define PRODUCT_VERSION "131.2014.0512.1322" // 产品版本
+#define FILE_VERSION "131.2014.0512.1322"    // 文件版本
+#define FILE_Major_Version_Number 131       // 文件主版本号（人为指定）
+#define FILE_Minor_Version_Number 2014      // 文件次版本号（年份）
+#define FILE_Build_Number 0512              // 文件内部版本号(月日)
+#define FILE_Revision_Number 1322           // 文件修订号（时分）
+#define PRODUCT_Major_Version_Number 131    // 产品主版本号（人为指定）
+#define PRODUCT_Minor_Version_Number 2014   // 产品次版本号（年份）
+#define PRODUCT_Build_Number 0512           // 产品内部版本号(月日)
+#define PRODUCT_Revision_Number 1322        // 产品修订号（时分）
+#define COMPANY_NAME "PeraGlobal"           // 公司名称
+#define COPY_RIGHT "Copyright(C) 2014 PeraGlobal Inc. All rights reserved." // 版权说明
+
+2. VesionCreateTool.exe  工具为命令行工具,共需两个参数，第一个参数为主版本号,第二个参数为输出版本信息文件
+ 例如：VesionCreateTool.exe 131 C:\version.h 当输出文件不存在时会新建,存在时其内容被更新
+ 
+3. 输出版本信息中定义的宏将在rc资源文件version字段使用,rc文件头应该包含VesionCreateTool.exe输出的版本信息文件version.h
+
+4 .项目更新如下：
+  1） 在资源包含目录添加$(SolutionDir)Common ($(SolutionDir)Common 目录下存放版本描述文件version.h)
+  2) 在资源rc文件头添加语句 #include "version.h"
+  3）将rc文件 VS_VERSION_INFO     VERSIONINFO 下面的 
+  FILEVERSION       1,0,0,1
+  PRODUCTVERSION   1,0,0,1
+  替换为
+  FILEVERSION       FILE_Major_Version_Number,FILE_Minor_Version_Number,FILE_Build_Number,FILE_Revision_Number
+  PRODUCTVERSION    PRODUCT_Major_Version_Number,PRODUCT_Minor_Version_Number,PRODUCT_Build_Number,PRODUCT_Revision_Number
+  
+  4）将rc 文件中 VS_VERSION_INFO 里面的公司名称替换为宏COMPANY_NAME，文件版本替换为宏FILE_VERSION ,版权信息替换为宏COPY_RIGHT，产品版本替换为宏PRODUCT_VERSION
+  
+ 5. VesionCreateTool.exe 工具和调用该工具的批处理VersionUpdate.bat 放在WorkPlatForm\build目录下
+ 
+ 6. 打包之前先调用工具VesionCreateTool.exe 更新($(SolutionDir)Common\version.h 文件中的版本信息，然后编译
+
+  
